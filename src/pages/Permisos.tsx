@@ -2,13 +2,27 @@ import React, { useState } from "react";
 import Menu from "../componentes/Menu";
 
 function Permisos() {
+  const lupa = new URL("../assets/lupa.png", import.meta.url).href;
+  const lapiz = new URL("../assets/lapiz.png", import.meta.url).href;
+  const borrar = new URL("../assets/borrar.png", import.meta.url).href;
+  const documento = new URL("../assets/documento.png", import.meta.url).href;
+
   const [formData, setFormData] = useState({
     nombre: "",
     telefono: "",
     torre: "",
     departamento: "",
+    fecha: "",
     permiso: "",
   });
+
+  const [permissions, setPermissions] = useState([
+    { id: 1, nombre: "Juan Pérez", telefono: "1234567890", torre: "Torre A", departamento: "101", permiso: "Si" },
+    { id: 2, nombre: "Ana López", telefono: "9876543210", torre: "Torre B", departamento: "202", permiso: "No" },
+    { id: 3, nombre: "Luis Martínez", telefono: "5678901234", torre: "Torre C", departamento: "303", permiso: "Si" },
+  ]);
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,15 +31,37 @@ function Permisos() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setPermissions([
+      ...permissions,
+      {
+        id: permissions.length + 1,
+        ...formData,
+      },
+    ]);
     alert(`Datos registrados:\n${JSON.stringify(formData, null, 2)}`);
     setFormData({
       nombre: "",
       telefono: "",
       torre: "",
       departamento: "",
+      fecha: "",
       permiso: "",
     });
   };
+
+  const handleDelete = (id) => {
+    setPermissions(permissions.filter((permission) => permission.id !== id));
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredPermissions = permissions.filter(
+    (permission) =>
+      permission.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      permission.telefono.includes(searchQuery)
+  );
 
   return (
     <div className="min-h-screen bg-gray-100 flex">
@@ -33,19 +69,13 @@ function Permisos() {
 
       <div className="ml-[15%] flex-1 p-6">
         <header className="bg-blue-500 text-white py-4 px-6 mb-6">
-          <h1 className="text-3xl font-bold text-center ">Registrar Nuevo Permiso</h1>
+          <h1 className="text-3xl font-bold text-center">Registrar Nuevo Permiso</h1>
         </header>
-        <main className=" p-6">
-
-          <form
-            onSubmit={handleSubmit}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6"
-          >
+        <main className="p-6">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div>
-                <label htmlFor="nombre" className="block text-gray-700 font-bold">
-                  Nombre:
-                </label>
+                <label htmlFor="nombre" className="block text-gray-700 font-bold">Nombre:</label>
                 <input
                   type="text"
                   id="nombre"
@@ -56,11 +86,8 @@ function Permisos() {
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-200 text-gray-700 p-2"
                 />
               </div>
-
               <div>
-                <label htmlFor="telefono" className="block text-gray-700 font-bold">
-                  Teléfono:
-                </label>
+                <label htmlFor="telefono" className="block text-gray-700 font-bold">Teléfono:</label>
                 <input
                   type="number"
                   id="telefono"
@@ -71,11 +98,8 @@ function Permisos() {
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-200 text-gray-700 p-2"
                 />
               </div>
-
               <div>
-                <label htmlFor="torre" className="block text-gray-700 font-bold">
-                  Torre:
-                </label>
+                <label htmlFor="torre" className="block text-gray-700 font-bold">Torre:</label>
                 <input
                   type="text"
                   id="torre"
@@ -90,9 +114,7 @@ function Permisos() {
 
             <div className="space-y-4">
               <div>
-                <label htmlFor="departamento" className="block text-gray-700 font-bold">
-                  Departamento:
-                </label>
+                <label htmlFor="departamento" className="block text-gray-700 font-bold">Departamento:</label>
                 <input
                   type="text"
                   id="departamento"
@@ -103,48 +125,99 @@ function Permisos() {
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-200 text-gray-700 p-2"
                 />
               </div>
-
               <div>
-  <label className="block text-gray-700 font-bold mb-2">Tipo:</label>
-  <div className="flex space-x-8 justify-center mt-2">
-    <div className="flex items-center transform scale-90">
-      <input
-        type="radio"
-        id="Si"
-        name="permiso"
-        value="Si"
-        checked={formData.permiso === "Si"}
-        onChange={handleChange}
-        className="form-radio text-blue-500"
-      />
-      <label htmlFor="Si" className="ml-2 text-gray-700">Si</label>
-    </div>
-    <div className="flex items-center transform scale-90">
-      <input
-        type="radio"
-        id="No"
-        name="tipo"
-        value="No"
-        checked={formData.permiso === "No"}
-        onChange={handleChange}
-        className="form-radio text-blue-500"
-      />
-      <label htmlFor="No" className="ml-2 text-gray-700">No</label>
-    </div>
-  </div>
-</div>
-
-
-              <div>
-                <button
-                  type="submit"
-                  className="bg-[#91CC04] text-back py-2 px-4 rounded-md shadow hover:bg-[#91BC04] transition duration-200 w-full"
-                >
-                  Registrar
-                </button>
+                <label htmlFor="departamento" className="block text-gray-700 font-bold">Fecha:</label>
+                <input
+                  type="date"
+                  id="fecha"
+                  name="fecha"
+                  value={formData.fecha}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-200 text-gray-700 p-2"
+                />
               </div>
+              <div>
+                <label htmlFor="permiso" className="block text-gray-700 font-bold">Permiso:</label>
+                <div className="flex space-x-8 justify-center mt-2">
+                  <div className="flex items-center transform scale-90">
+                    <input
+                      type="radio"
+                      id="Si"
+                      name="permiso"
+                      value="Si"
+                      checked={formData.permiso === "Si"}
+                      onChange={handleChange}
+                      className="form-radio text-blue-500"
+                    />
+                    <label htmlFor="Si" className="ml-2 text-gray-700">Si</label>
+                  </div>
+                  <div className="flex items-center transform scale-90">
+                    <input
+                      type="radio"
+                      id="No"
+                      name="permiso"
+                      value="No"
+                      checked={formData.permiso === "No"}
+                      onChange={handleChange}
+                      className="form-radio text-blue-500"
+                    />
+                    <label htmlFor="No" className="ml-2 text-gray-700">No</label>
+                  </div>
+                </div>
+              </div>
+              <button
+                type="submit"
+                className="bg-[#91CC04] text-black py-2 px-4 rounded-md shadow hover:bg-[#91BC04] w-full"
+              >
+                Registrar
+              </button>
             </div>
           </form>
+
+          <div className="mt-8">
+            <h2 className="text-xl font-bold text-gray-700 mb-4">Permisos Registrados</h2>
+            <div className="flex items-center mb-4">
+              <input
+                type="text"
+                placeholder="Buscar por nombre o teléfono"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="flex-1 p-2 border rounded-md shadow-sm bg-gray-200"
+              />
+              <img src={lupa} alt="Buscar" className="w-6 h-6 ml-2" />
+            </div>
+            <table className="min-w-full bg-white border border-gray-200 rounded-md">
+              <thead className="bg-gray-200">
+                <tr>
+                  <th className="py-2 px-4 border-b text-left">Nombre</th>
+                  <th className="py-2 px-4 border-b text-left">Teléfono</th>
+                  <th className="py-2 px-4 border-b text-left">Permiso</th>
+                  <th className="py-2 px-4 border-b text-center">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredPermissions.map((permission) => (
+                  <tr key={permission.id}>
+                    <td className="py-2 px-4 border-b">{permission.nombre}</td>
+                    <td className="py-2 px-4 border-b">{permission.telefono}</td>
+                    <td className="py-2 px-4 border-b">{permission.permiso}</td>
+                    <td className="py-2 px-4 border-b text-center space-x-4">
+                      <button>
+                        <img src={documento} alt="Ver" className="inline-block w-5 h-5" />
+                      </button>
+                      <button>
+                        <img src={lapiz} alt="Editar" className="inline-block w-5 h-5" />
+                      </button>
+                      <button onClick={() => handleDelete(permission.id)}>
+                        <img src={borrar} alt="Eliminar" className="inline-block w-5 h-5" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </main>
       </div>
     </div>

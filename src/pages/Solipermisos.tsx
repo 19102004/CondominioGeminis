@@ -135,7 +135,7 @@ function Solipermisos() {
                   type="submit"
                   className="bg-[#91CC04] text-back py-2 px-4 rounded-md shadow hover:bg-[#91BC04] transition duration-200 w-full"
                 >
-                  Registrar
+                  Solicitar
                 </button>
               </div>
             </div>

@@ -16,13 +16,13 @@ function Login() {
     console.log("Teléfono:", telefono, "Contraseña:", password);
   
      if (telefono === '123' && password === '123') {
-      alert("Intentando iniciar sesión...");
+      alert("Iniciar sesión...");
   
       setTimeout(() => {
         navigate("/welcome"); 
       }, 1000); 
     }  else if (telefono === '12345' && password === '12345'){
-      alert("Intentando iniciar sesión...");
+      alert("Inciando sesión...");
   
       setTimeout(() => {
         navigate("/welcomeu"); 
