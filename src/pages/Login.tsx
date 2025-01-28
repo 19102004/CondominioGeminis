@@ -17,7 +17,7 @@ function Login() {
   
     try {
       const response = await fetch(
-        `http://localhost:4000/api/usuarios/existe?telefono=${telefono}&password=${password}`
+        `https://apigeminis.onrender.com/api/usuarios/existe?telefono=${telefono}&password=${password}`
       );
   
       const data = await response.json();

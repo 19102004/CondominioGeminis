@@ -26,7 +26,7 @@ function Usuarios() {
 
   const fetchUsuarios = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/usuarios/resumen");
+      const response = await fetch("https://apigeminis.onrender.com/api/usuarios/resumen");
       if (!response.ok) {
         throw new Error("Error al obtener el resumen de usuarios");
       }
@@ -48,7 +48,7 @@ function Usuarios() {
     setError("");
   
     try {
-      const response = await fetch("http://localhost:4000/api/usuarios", {
+      const response = await fetch("https://apigeminis.onrender.com/api/usuarios", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

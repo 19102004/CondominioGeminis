@@ -30,7 +30,7 @@ function Notificaciones() {
   const fetchMultasPorDepartamento = async (departamento: string) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/notificaciones/resumen?departamento=${departamento}`
+        `https://apigeminis.onrender.com/api/notificaciones/resumen?departamento=${departamento}`
       );
 
       if (!response.ok) {
@@ -47,7 +47,7 @@ function Notificaciones() {
 
   const eliminarNotificacion = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/notificaciones/delete/${id}`, {
+      const response = await fetch(`https://apigeminis.onrender.com/api/notificaciones/delete/${id}`, {
         method: "DELETE",
       });
 

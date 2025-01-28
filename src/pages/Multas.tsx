@@ -30,7 +30,7 @@ function Multas() {
 
   const fetchMultas = async () => {
     try {
-      const response = await fetch("http://localhost:4000/api/multas/resumen");
+      const response = await fetch("https://apigeminis.onrender.com/api/multas/resumen");
       if (!response.ok) {
         throw new Error("Error al obtener el resumen de multas");
       }
@@ -51,7 +51,7 @@ function Multas() {
 
   try {
     // Realizar la solicitud para registrar la multa
-    const multaResponse = await fetch("http://localhost:4000/api/multas", {
+    const multaResponse = await fetch("https://apigeminis.onrender.com/api/multas", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -77,7 +77,7 @@ function Multas() {
     };
 
     // Realizar la solicitud para registrar la notificación
-    const notificacionResponse = await fetch("http://localhost:4000/api/notificaciones", {
+    const notificacionResponse = await fetch("https://apigeminis.onrender.com/api/notificaciones", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
