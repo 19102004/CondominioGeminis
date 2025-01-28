@@ -16,7 +16,6 @@ function Login() {
     }
   
     try {
-      // Realizamos la solicitud GET a la API para verificar la existencia del usuario
       const response = await fetch(
         `http://localhost:4000/api/usuarios/existe?telefono=${telefono}&password=${password}`
       );
@@ -24,20 +23,16 @@ function Login() {
       const data = await response.json();
   
       if (response.status === 200) {
-        // Si el usuario existe, almacenamos el token, la información del usuario, y el departamento
-        localStorage.setItem("token", data.token); // Guardar token en localStorage
-        localStorage.setItem("usuario", JSON.stringify(data.usuario)); // Guardar usuario en localStorage
-        localStorage.setItem("idUsuario", data.usuario.id); // Guardar el id del usuario en localStorage
-        localStorage.setItem("departamento", data.usuario.departamento); // Guardar el departamento en localStorage
-  
-        // Redirigimos dependiendo del tipo de usuario
+        localStorage.setItem("token", data.token); 
+        localStorage.setItem("usuario", JSON.stringify(data.usuario)); 
+        localStorage.setItem("idUsuario", data.usuario.id); 
+        localStorage.setItem("departamento", data.usuario.departamento); 
         if (data.usuario.tipo === "Inquilino") {
           navigate("/welcomeU");
         } else {
           navigate("/welcome");
         }
       } else {
-        // Si el usuario no es encontrado
         setErrorMessage(data.mensaje || "Error desconocido.");
       }
     } catch (error) {

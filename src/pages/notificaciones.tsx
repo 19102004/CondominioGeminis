@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import MenuU from "../componentes/MenuU";
-import borrarImg from "../assets/borrar.png"; // Importa la imagen de borrar
+import borrarImg from "../assets/borrar.png"; 
 
 interface Multa {
-  _id: string; // Suponiendo que cada multa tiene un campo '_id' como identificador único
+  _id: string; 
   nombre: string;
   concepto: string;
   fecha: string;
@@ -14,24 +14,21 @@ function Notificaciones() {
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    // Obtener el departamento desde localStorage
     const departamento = localStorage.getItem("departamento");
 
     if (departamento) {
       const intervalId = setInterval(() => {
-        fetchMultasPorDepartamento(departamento); // Hacer la solicitud con el departamento cada segundo
+        fetchMultasPorDepartamento(departamento); 
       }, 1000);
 
-      // Limpiar el intervalo cuando el componente se desmonte
       return () => clearInterval(intervalId);
     } else {
       setError("No se encontró un departamento en localStorage");
     }
-  }, []); // El useEffect se ejecuta solo una vez al montar el componente
+  }, []); 
 
   const fetchMultasPorDepartamento = async (departamento: string) => {
     try {
-      // Realizar la solicitud GET con el departamento como query param
       const response = await fetch(
         `http://localhost:4000/api/notificaciones/resumen?departamento=${departamento}`
       );
@@ -41,7 +38,7 @@ function Notificaciones() {
       }
 
       const data = await response.json();
-      setMultas(data.notificaciones); // Asegúrate de que la respuesta tenga este formato
+      setMultas(data.notificaciones); 
     } catch (error) {
       setError("Error al obtener el resumen de multas");
       console.error("Error al obtener el resumen de multas:", error);
@@ -58,7 +55,6 @@ function Notificaciones() {
         throw new Error("Error al eliminar la notificación");
       }
 
-      // Actualizar el estado eliminando la notificación
       setMultas((prevMultas) => prevMultas.filter((multa) => multa._id !== id));
     } catch (error) {
       setError("Error al eliminar la notificación");
@@ -77,14 +73,14 @@ function Notificaciones() {
         <main className="p-6">
           <section className="mt-12">
             <h2 className="text-2xl font-bold mb-4">Resumen de Multas</h2>
-            {error && <p className="text-red-500">{error}</p>} {/* Mostrar error si ocurre */}
+            {error && <p className="text-red-500">{error}</p>} 
             <table className="w-full border-collapse border border-gray-300">
               <thead>
                 <tr className="bg-gray-200">
                   <th className="border border-gray-300 p-2">Nombre</th>
                   <th className="border border-gray-300 p-2">Concepto</th>
                   <th className="border border-gray-300 p-2">Fecha</th>
-                  <th className="border border-gray-300 p-2">Acciones</th> {/* Columna de acciones */}
+                  <th className="border border-gray-300 p-2">Acciones</th> 
                 </tr>
               </thead>
               <tbody>
