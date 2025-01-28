@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import MenuU from "../componentes/MenuU";
 
 function Historial() {
@@ -22,9 +22,10 @@ function Historial() {
       item.fecha.includes(searchQuery)
   );
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-100 flex">

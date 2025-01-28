@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Menu from "../componentes/Menu";
 
 function Pagos() {
@@ -25,12 +25,13 @@ function Pagos() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPayments([
       ...payments,
@@ -50,14 +51,17 @@ function Pagos() {
       concepto: "",
     });
   };
+  
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: number) => {
     setPayments(payments.filter((payment) => payment.id !== id));
   };
+  
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
+  
 
   const filteredPayments = payments.filter(
     (payment) =>

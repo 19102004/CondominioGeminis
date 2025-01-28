@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink, Link } from "react-router-dom";
 
 function Menu() {
@@ -7,6 +6,7 @@ function Menu() {
   const fuera = new URL("../assets/fuera.png", import.meta.url).href;
   const usuario = new URL("../assets/usuario.png", import.meta.url).href;
   const historial = new URL("../assets/historial.png", import.meta.url).href;
+  const notificacion = new URL("../assets/notificacion.png", import.meta.url).href;
 
 
   return (
@@ -58,6 +58,24 @@ function Menu() {
                 className="w-10 h-10 object-cover hover:opacity-80 cursor-pointer transform hover:scale-110 transition-transform duration-200"
               />
               <span className="text-sm ml-[15%]">Permisos</span>
+            </NavLink>
+          </li>
+
+          <li className="flex items-center space-x-6 pl-[10%]">
+            <NavLink
+              to="/notificaciones"
+              className={({ isActive }) =>
+                `flex items-center ${
+                  isActive ? "text-blue-500 font-bold" : "text-gray-800"
+                }`
+              }
+            >
+              <img
+                src={notificacion}
+                alt="Ir a la página de notificaciones"
+                className="w-10 h-10 object-cover hover:opacity-80 cursor-pointer transform hover:scale-110 transition-transform duration-200"
+              />
+              <span className="text-sm ml-[15%]">Notificaciones</span>
             </NavLink>
           </li>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 
 function Login() {
@@ -7,30 +7,47 @@ function Login() {
 
   const [telefono, setTelefono] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!telefono || !password) {
-      alert("Por favor, completa todos los campos");
+      setErrorMessage("Por favor, ingresa ambos campos.");
       return;
     }
-    console.log("Teléfono:", telefono, "Contraseña:", password);
   
-     if (telefono === '123' && password === '123') {
-      alert("Iniciar sesión...");
+    try {
+      // Realizamos la solicitud GET a la API para verificar la existencia del usuario
+      const response = await fetch(
+        `http://localhost:4000/api/usuarios/existe?telefono=${telefono}&password=${password}`
+      );
   
-      setTimeout(() => {
-        navigate("/welcome"); 
-      }, 1000); 
-    }  else if (telefono === '12345' && password === '12345'){
-      alert("Inciando sesión...");
+      const data = await response.json();
   
-      setTimeout(() => {
-        navigate("/welcomeu"); 
-      }, 1000); 
-    } else {
-      alert("Teléfono o contraseña incorrectos");
+      if (response.status === 200) {
+        // Si el usuario existe, almacenamos el token, la información del usuario, y el departamento
+        localStorage.setItem("token", data.token); // Guardar token en localStorage
+        localStorage.setItem("usuario", JSON.stringify(data.usuario)); // Guardar usuario en localStorage
+        localStorage.setItem("idUsuario", data.usuario.id); // Guardar el id del usuario en localStorage
+        localStorage.setItem("departamento", data.usuario.departamento); // Guardar el departamento en localStorage
+  
+        // Redirigimos dependiendo del tipo de usuario
+        if (data.usuario.tipo === "Inquilino") {
+          navigate("/welcomeU");
+        } else {
+          navigate("/welcome");
+        }
+      } else {
+        // Si el usuario no es encontrado
+        setErrorMessage(data.mensaje || "Error desconocido.");
+      }
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+      setErrorMessage("Hubo un problema al iniciar sesión. Intenta nuevamente.");
     }
   };
+  
+  
+  
   
 
   return (
@@ -73,7 +90,7 @@ function Login() {
                   Contraseña
                 </label>
                 <input
-                  type="password"
+                  type="password" 
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -81,6 +98,12 @@ function Login() {
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-lg py-3"
                 />
               </div>
+
+              {/* Si hay un mensaje de error, lo mostramos aquí */}
+              {errorMessage && (
+                <div className="text-red-500 text-sm">{errorMessage}</div>
+              )}
+
               <button
                 type="button"
                 onClick={handleLogin}
@@ -94,8 +117,7 @@ function Login() {
         <div className="w-[15%]" />
         <div className="w-1/2">
           <img src={condominio} alt="Condominio" className="object-cover w-full h-auto" />
-
-          <p className="text-center  text-3xl text-[#00B6BD] font-semibold">Géminis</p>
+          <p className="text-center text-3xl text-[#00B6BD] font-semibold">Géminis</p>
         </div>
       </div>
     </div>

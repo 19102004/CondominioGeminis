@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Menu from "../componentes/Menu";
 
 function Permisos() {
@@ -24,12 +24,12 @@ function Permisos() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = (e:  React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPermissions([
       ...permissions,
@@ -48,15 +48,16 @@ function Permisos() {
       permiso: "",
     });
   };
-
-  const handleDelete = (id) => {
+  
+  const handleDelete = (id: number) => {
     setPermissions(permissions.filter((permission) => permission.id !== id));
   };
+  
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
-
+  
   const filteredPermissions = permissions.filter(
     (permission) =>
       permission.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||

@@ -1,5 +1,3 @@
-
-import React from "react";
 import Menu from "../componentes/Menu";
 
 function Welcome() {

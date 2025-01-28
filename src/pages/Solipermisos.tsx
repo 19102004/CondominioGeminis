@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import MenuU from "../componentes/MenuU";
 
 function Solipermisos() {
@@ -11,12 +11,12 @@ function Solipermisos() {
     descripcion: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     alert(`Datos registrados:\n${JSON.stringify(formData, null, 2)}`);
     setFormData({
@@ -28,7 +28,6 @@ function Solipermisos() {
       descripcion: "",
     });
   };
-
   return (
     <div className="min-h-screen bg-gray-100 flex">
       <MenuU />

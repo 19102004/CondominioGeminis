@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import Menu from "../componentes/Menu";
 
-function Multas() {
-  const lapiz = new URL("../assets/lapiz.png", import.meta.url).href;
-  const borrar = new URL("../assets/borrar.png", import.meta.url).href;
-  const documento = new URL("../assets/documento.png", import.meta.url).href;
-  const lupa = new URL("../assets/lupa.png", import.meta.url).href;
+interface Multa {
+  nombre: string;
+  telefono: string;
+  torre: string;
+  departamento: string;
+  monto: number;
+  fecha: string; // or Date
+  concepto: string;
+}
 
+function Multas() {
   const [formData, setFormData] = useState({
     nombre: "",
     telefono: "",
@@ -17,34 +22,74 @@ function Multas() {
     concepto: "",
   });
 
-  const [multas, setMultas] = useState([
-    { id: 1, nombre: "Juan Pérez", telefono: "1234567890", torre: "Torre A", departamento: "101", monto: 500, concepto: "Ruidos molestos" },
-    { id: 2, nombre: "Ana López", telefono: "9876543210", torre: "Torre B", departamento: "202", monto: 300, concepto: "Estacionamiento ilegal" },
-    { id: 3, nombre: "Luis Martínez", telefono: "5678901234", torre: "Torre C", departamento: "303", monto: 150, concepto: "Desperdicio de agua" },
-  ]);
+  const [multas, setMultas] = useState<Multa[]>([]);
 
-  const [searchQuery, setSearchQuery] = useState("");
+  useEffect(() => {
+    fetchMultas();
+  }, []);
 
-  const handleChange = (e) => {
+  const fetchMultas = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/api/multas/resumen");
+      if (!response.ok) {
+        throw new Error("Error al obtener el resumen de multas");
+      }
+      const data = await response.json();
+      setMultas(data);
+    } catch (error) {
+      console.error("Error al obtener el resumen de multas:", error);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setMultas([
-      ...multas,
-      {
-        id: multas.length + 1,
-        nombre: formData.nombre,
-        telefono: formData.telefono,
-        torre: formData.torre,
-        departamento: formData.departamento,
-        monto: formData.monto,
-        concepto: formData.concepto,
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  try {
+    // Realizar la solicitud para registrar la multa
+    const multaResponse = await fetch("http://localhost:4000/api/multas", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    ]);
-    alert(`Datos registrados:\n${JSON.stringify(formData, null, 2)}`);
+      body: JSON.stringify(formData),
+    });
+
+    if (!multaResponse.ok) {
+      throw new Error("Error al registrar la multa.");
+    }
+
+    // Crear datos para la notificación
+    const notificacionData = {
+      mensaje: `Se ha registrado una multa para ${formData.nombre}`,
+      fecha: formData.fecha,
+      departamento: formData.departamento,
+      telefono: formData.telefono,
+      torre: formData.torre,
+      concepto: formData.concepto,
+      monto: formData.monto,
+      nombre: formData.nombre,
+
+    };
+
+    // Realizar la solicitud para registrar la notificación
+    const notificacionResponse = await fetch("http://localhost:4000/api/notificaciones", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(notificacionData),
+    });
+
+    if (!notificacionResponse.ok) {
+      throw new Error("Error al registrar la notificación.");
+    }
+
+    alert("Multa y notificación registradas exitosamente!");
     setFormData({
       nombre: "",
       telefono: "",
@@ -54,21 +99,14 @@ function Multas() {
       fecha: "",
       concepto: "",
     });
-  };
 
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
+    fetchMultas(); // Recargar multas después de registrar una nueva
+  } catch (error) {
+    console.error("Error al registrar la multa o la notificación:", error);
+    alert("Hubo un error al registrar la multa o la notificación.");
+  }
+};
 
-  const handleDelete = (id) => {
-    setMultas(multas.filter((multa) => multa.id !== id));
-  };
-
-  const filteredMultas = multas.filter(
-    (multa) =>
-      multa.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      multa.telefono.includes(searchQuery)
-  );
 
   return (
     <div className="min-h-screen bg-gray-100 flex">
@@ -95,7 +133,6 @@ function Multas() {
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-200 text-gray-700 p-2"
                 />
               </div>
-
               <div>
                 <label htmlFor="telefono" className="block text-gray-700 font-bold">
                   Teléfono:
@@ -110,7 +147,6 @@ function Multas() {
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-200 text-gray-700 p-2"
                 />
               </div>
-
               <div>
                 <label htmlFor="torre" className="block text-gray-700 font-bold">
                   Torre:
@@ -126,7 +162,9 @@ function Multas() {
                 />
               </div>
               <div>
-                <label htmlFor="departamento" className="block text-gray-700 font-bold">Fecha:</label>
+                <label htmlFor="fecha" className="block text-gray-700 font-bold">
+                  Fecha:
+                </label>
                 <input
                   type="date"
                   id="fecha"
@@ -154,7 +192,6 @@ function Multas() {
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-200 text-gray-700 p-2"
                 />
               </div>
-
               <div>
                 <label htmlFor="monto" className="block text-gray-700 font-bold">
                   Monto:
@@ -169,7 +206,6 @@ function Multas() {
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-200 text-gray-700 p-2"
                 />
               </div>
-
               <div>
                 <label htmlFor="concepto" className="block text-gray-700 font-bold">
                   Concepto:
@@ -184,7 +220,6 @@ function Multas() {
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-200 text-gray-700 p-2"
                 />
               </div>
-
               <div>
                 <button
                   type="submit"
@@ -196,53 +231,35 @@ function Multas() {
             </div>
           </form>
 
-          <div className="mt-8">
-            <h2 className="text-xl font-bold text-gray-700 mb-4">Multas Registradas</h2>
-
-            <div className="flex items-center mb-4">
-              <input
-                type="text"
-                placeholder="Buscar por nombre o teléfono"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                className="flex-1 p-2 border rounded-md shadow-sm bg-gray-200"
-              />
-              <img src={lupa} alt="Buscar" className="w-6 h-6 ml-2" />
-            </div>
-
-            <table className="min-w-full bg-white border border-gray-200 rounded-md">
-              <thead className="bg-gray-200">
-                <tr>
-                  <th className="py-2 px-4 border-b text-left">Nombre</th>
-                  <th className="py-2 px-4 border-b text-left">Teléfono</th>
-                  <th className="py-2 px-4 border-b text-left">Monto</th>
-                  <th className="py-2 px-4 border-b text-left">Concepto</th>
-                  <th className="py-2 px-4 border-b text-center">Acciones</th>
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold mb-4">Resumen de Multas</h2>
+            <table className="w-full border-collapse border border-gray-300">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="border border-gray-300 p-2">Nombre</th>
+                  <th className="border border-gray-300 p-2">Concepto</th>
+                  <th className="border border-gray-300 p-2">Fecha</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredMultas.map((multa) => (
-                  <tr key={multa.id}>
-                    <td className="py-2 px-4 border-b">{multa.nombre}</td>
-                    <td className="py-2 px-4 border-b">{multa.telefono}</td>
-                    <td className="py-2 px-4 border-b">{multa.monto}</td>
-                    <td className="py-2 px-4 border-b">{multa.concepto}</td>
-                    <td className="py-2 px-4 border-b text-center space-x-4">
-                      <button>
-                        <img src={documento} alt="Ver" className="inline-block w-5 h-5" />
-                      </button>
-                      <button>
-                        <img src={lapiz} alt="Editar" className="inline-block w-5 h-5" />
-                      </button>
-                      <button onClick={() => handleDelete(multa.id)}>
-                        <img src={borrar} alt="Eliminar" className="inline-block w-5 h-5" />
-                      </button>
+                {multas.length > 0 ? (
+                  multas.map((multa, index) => (
+                    <tr key={index} className="bg-white hover:bg-gray-100">
+                      <td className="border border-gray-300 p-2">{multa.nombre}</td>
+                      <td className="border border-gray-300 p-2">{multa.concepto}</td>
+                      <td className="border border-gray-300 p-2">{new Date(multa.fecha).toLocaleDateString()}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={3} className="text-center py-4">
+                      No hay multas registradas
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
-          </div>
+          </section>
         </main>
       </div>
     </div>

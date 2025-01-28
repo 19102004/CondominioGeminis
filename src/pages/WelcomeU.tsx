@@ -1,4 +1,3 @@
-import React from "react";
 import MenuU from "../componentes/MenuU";
 
 function WelcomeU() {
