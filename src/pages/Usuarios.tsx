@@ -81,6 +81,8 @@ interface Usuario {
   nombre: string;
   telefono: string;
   tipo: string;
+  torre: string;
+  departamento: string;
 }
 
   return (
@@ -196,6 +198,8 @@ interface Usuario {
                   <th className="border border-gray-300 p-2">Nombre</th>
                   <th className="border border-gray-300 p-2">Teléfono</th>
                   <th className="border border-gray-300 p-2">Tipo</th>
+                  <th className="border border-gray-300 p-2">Torre</th>
+                  <th className="border border-gray-300 p-2">Departamento</th>
                 </tr>
               </thead>
               <tbody>
@@ -205,6 +209,8 @@ interface Usuario {
                       <td className="border border-gray-300 p-2">{usuario.nombre}</td>
                       <td className="border border-gray-300 p-2">{usuario.telefono}</td>
                       <td className="border border-gray-300 p-2">{usuario.tipo}</td>
+                      <td className="border border-gray-300 p-2">{usuario.torre}</td>
+                      <td className="border border-gray-300 p-2">{usuario.departamento}</td>
                     </tr>
                   ))
                 ) : (

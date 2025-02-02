@@ -8,9 +8,6 @@ import Permisos from './pages/Permisos';
 import Historial from './pages/Historial';
 import Solipermisos from './pages/Solipermisos';
 import WelcomeU from './pages/WelcomeU';
-import Notificaciones from './pages/notificaciones';
-
-
 
 import './App.css';
 
@@ -45,9 +42,6 @@ function App() {
           <li>
             <Link to="/welcomeu"></Link>
           </li>
-          <li>
-            <Link to="/notificaciones"></Link>
-          </li>
         </ul>
       </nav>
       <Routes>
@@ -60,7 +54,6 @@ function App() {
         <Route path="/historial" element={<Historial/>} />
         <Route path="/solipermisos" element={<Solipermisos/>} />
         <Route path="/welcomeu" element={<WelcomeU />} /> 
-        <Route path="/notificaciones" element={<Notificaciones />} /> 
 
       </Routes>
     </Router>
