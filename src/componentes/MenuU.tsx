@@ -1,14 +1,15 @@
 import { NavLink, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { CSSTransition } from 'react-transition-group';
 import borrarImg from "../assets/borrar.png";
+import "./modal.css"; 
 
-// Definición de la interfaz para las props del Modal
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-// Definición de la interfaz para las multas
+
 interface Multa {
   _id: string;
   nombre: string;
@@ -17,8 +18,6 @@ interface Multa {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
   const [multas, setMultas] = useState<Multa[]>([]);
   const [error, setError] = useState<string>("");
 
@@ -75,66 +74,73 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-4xl">
-        <header className="bg-blue-500 text-white py-4 px-6 mb-6">
-          <h1 className="text-3xl font-bold text-center">Notificaciones</h1>
-        </header>
+    <CSSTransition
+      in={isOpen}
+      timeout={500}
+      classNames="modal"
+      unmountOnExit
+    >
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-4xl">
+          <header className="bg-blue-500 text-white py-4 px-6 mb-6">
+            <h1 className="text-3xl font-bold text-center">Notificaciones</h1>
+          </header>
 
-        {error && <p className="text-red-500">{error}</p>}
+          {error && <p className="text-red-500">{error}</p>}
 
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border border-gray-300 p-2">Nombre</th>
-              <th className="border border-gray-300 p-2">Concepto</th>
-              <th className="border border-gray-300 p-2">Fecha</th>
-              <th className="border border-gray-300 p-2">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {multas.length > 0 ? (
-              multas.map((multa) => (
-                <tr key={multa._id} className="bg-white hover:bg-gray-100">
-                  <td className="border border-gray-300 p-2">{multa.nombre}</td>
-                  <td className="border border-gray-300 p-2">{multa.concepto}</td>
-                  <td className="border border-gray-300 p-2">
-                    {new Date(multa.fecha).toLocaleDateString()}
-                  </td>
-                  <td className="border border-gray-300 p-2">
-                    <button
-                      onClick={() => eliminarNotificacion(multa._id)}
-                      className="flex items-center justify-center"
-                    >
-                      <img src={borrarImg} alt="Eliminar" className="w-6 h-6" />
-                    </button>
+          <table className="w-full border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border border-gray-300 p-2">Nombre</th>
+                <th className="border border-gray-300 p-2">Concepto</th>
+                <th className="border border-gray-300 p-2">Fecha</th>
+                <th className="border border-gray-300 p-2">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {multas.length > 0 ? (
+                multas.map((multa) => (
+                  <tr key={multa._id} className="bg-white hover:bg-gray-100">
+                    <td className="border border-gray-300 p-2">{multa.nombre}</td>
+                    <td className="border border-gray-300 p-2">{multa.concepto}</td>
+                    <td className="border border-gray-300 p-2">
+                      {new Date(multa.fecha).toLocaleDateString()}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      <button
+                        onClick={() => eliminarNotificacion(multa._id)}
+                        className="flex items-center justify-center"
+                      >
+                        <img src={borrarImg} alt="Eliminar" className="w-6 h-6" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="text-center py-4">
+                    No hay multas registradas
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={4} className="text-center py-4">
-                  No hay multas registradas
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
 
-        <button
-          onClick={onClose}
-          className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
-        >
-          Cerrar
-        </button>
+          <button
+            onClick={onClose}
+            className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
+          >
+            Cerrar
+          </button>
+        </div>
       </div>
-    </div>
+    </CSSTransition>
   );
 };
 
 const MenuU = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [notificacionesCount, setNotificacionesCount] = useState(0); // Estado para el conteo de notificaciones
+  const [notificacionesCount, setNotificacionesCount] = useState(0);
   const condominio = new URL("../assets/condominio.png", import.meta.url).href;
   const permisos = new URL("../assets/permisos.png", import.meta.url).href;
   const fuera = new URL("../assets/fuera.png", import.meta.url).href;
@@ -165,7 +171,7 @@ const MenuU = () => {
       }
 
       const data = await response.json();
-      setNotificacionesCount(data.notificaciones.length); // Actualiza el conteo
+      setNotificacionesCount(data.notificaciones.length);
     } catch (error) {
       console.error("Error al obtener el conteo de notificaciones:", error);
     }
@@ -187,9 +193,7 @@ const MenuU = () => {
             <NavLink
               to="/historial"
               className={({ isActive }) =>
-                `flex items-center ${
-                  isActive ? "text-blue-500 font-bold" : "text-gray-800"
-                }`
+                `flex items-center ${isActive ? "text-blue-500 font-bold" : "text-gray-800"}`
               }
             >
               <img
@@ -205,9 +209,7 @@ const MenuU = () => {
             <NavLink
               to="/solipermisos"
               className={({ isActive }) =>
-                `flex items-center ${
-                  isActive ? "text-blue-500 font-bold" : "text-gray-800"
-                }`
+                `flex items-center ${isActive ? "text-blue-500 font-bold" : "text-gray-800"}`
               }
             >
               <img
@@ -243,9 +245,7 @@ const MenuU = () => {
             <NavLink
               to="/"
               className={({ isActive }) =>
-                `flex items-center ${
-                  isActive ? "text-blue-500 font-bold" : "text-gray-800"
-                }`
+                `flex items-center ${isActive ? "text-blue-500 font-bold" : "text-gray-800"}`
               }
             >
               <img

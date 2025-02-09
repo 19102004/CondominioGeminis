@@ -1,0 +1,74 @@
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-enter-active {
+  opacity: 1;
+  transition: opacity 500ms;
+}
+
+.modal-exit {
+  opacity: 1;
+}
+
+.modal-exit-active {
+  opacity: 0;
+  transition: opacity 500ms;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes colorChange {
+  0% { background-color: #ff0000; }
+  25% { background-color: #00ff00; }
+  50% { background-color: #0000ff; }
+  75% { background-color: #ff00ff; }
+  100% { background-color: #ff0000; }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite, colorChange 4s linear infinite;
+  border-radius: 50%; 
+  width: 50px; 
+  height: 50px; 
+}
+
+.fullscreen-spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+
+
+
+  .modal-enter {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  
+  .modal-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 500ms, transform 500ms;
+  }
+  
+  .modal-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .modal-exit-active {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 500ms, transform 500ms;
+  }
+  
