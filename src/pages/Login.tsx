@@ -1,32 +1,55 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const condominio = new URL("../assets/condominio.png", import.meta.url).href;
 
   const [telefono, setTelefono] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  useEffect(() => {
+    const tokenExpiration = localStorage.getItem("tokenExpiration");
+    if (tokenExpiration && Date.now() > parseInt(tokenExpiration)) {
+      logout();
+    }
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("idUsuario");
+    localStorage.removeItem("departamento");
+    localStorage.removeItem("tokenExpiration");
+    navigate("/");
+  };
+
   const handleLogin = async () => {
     if (!telefono || !password) {
       setErrorMessage("Por favor, ingresa ambos campos.");
       return;
     }
-  
+
     try {
       const response = await fetch(
         `https://apigeminis.onrender.com/api/usuarios/existe?telefono=${telefono}&password=${password}`
       );
-  
+
       const data = await response.json();
-  
+
       if (response.status === 200) {
-        localStorage.setItem("token", data.token); 
-        localStorage.setItem("usuario", JSON.stringify(data.usuario)); 
-        localStorage.setItem("idUsuario", data.usuario.id); 
-        localStorage.setItem("departamento", data.usuario.departamento); 
+        const expirationTime = Date.now() + 60000; // 60 segundos
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("usuario", JSON.stringify(data.usuario));
+        localStorage.setItem("idUsuario", data.usuario.id);
+        localStorage.setItem("departamento", data.usuario.departamento);
+        localStorage.setItem("tokenExpiration", expirationTime.toString());
+
+        setTimeout(() => {
+          logout();
+        }, 60000); // Cerrar sesión después de 60 segundos
+
         if (data.usuario.tipo === "Inquilino") {
           navigate("/welcomeU");
         } else {
@@ -40,10 +63,6 @@ function Login() {
       setErrorMessage("Hubo un problema al iniciar sesión. Intenta nuevamente.");
     }
   };
-  
-  
-  
-  
 
   return (
     <div className="relative flex items-center justify-center min-h-screen">
@@ -65,7 +84,7 @@ function Login() {
       <div className="flex w-full max-w-5xl items-center">
         <div className="w-1/2">
           <div className="p-6">
-            <h2 className="text-3xl font-bold text-blue-500 mb-6">Iniciar sesión</h2>
+            <h2 className="text-3xl font-bold text-blue-500 mb-6">Iniciar sesión.</h2>
             <form className="space-y-6">
               <div>
                 <label htmlFor="telefono" className="block text-lg font-medium text-gray-700">
@@ -85,7 +104,7 @@ function Login() {
                   Contraseña
                 </label>
                 <input
-                  type="password" 
+                  type="password"
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -94,7 +113,6 @@ function Login() {
                 />
               </div>
 
-              {/* Si hay un mensaje de error, lo mostramos aquí */}
               {errorMessage && (
                 <div className="text-red-500 text-sm">{errorMessage}</div>
               )}
