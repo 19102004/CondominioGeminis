@@ -61,7 +61,7 @@ function Multas() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+    // http://localhost:4000
     setTimeout(async () => {
       try {
         const multaResponse = await fetch("https://apigeminis.onrender.com/api/multas", {
@@ -74,7 +74,7 @@ function Multas() {
         });
 
         if (!multaResponse.ok) {
-          throw new Error("Error al registrar la multa.");
+          throw new Error("Error al registrar la multa verifique su token.");
         }
 
         const notificacionData = {
