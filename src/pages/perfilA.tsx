@@ -190,7 +190,7 @@ function PerfilA() {
           <div className="bg-white p-6 rounded-md shadow-md w-96">
             <h2 className="text-lg font-semibold mb-4">Confirmar Cambio de Contraseña</h2>
             <p className="text-gray-700 mb-4">
-              Al cambiar la contraseña, se cerrará la sesión en todos los dispositivos alternos a este.
+              Al cambiar la contraseña, se cerrará la sesión en todos los dispositivos incluido este.
             </p>
             <div className="flex justify-end">
               <button
