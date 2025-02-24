@@ -38,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const fetchMultasPorDepartamento = async (departamento: string) => {
     try {
       const response = await fetch(
-        `https://apigeminis.onrender.com/api/notificaciones/resumen?departamento=${departamento}`
+        `http://localhost:4000/api/notificaciones/resumen?departamento=${departamento}`
       );
 
       if (!response.ok) {
@@ -56,7 +56,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const eliminarNotificacion = async (id: string) => {
     try {
       const response = await fetch(
-        `https://apigeminis.onrender.com/api/notificaciones/delete/${id}`,
+        `http://localhost:4000/api/notificaciones/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -163,7 +163,7 @@ const MenuU = () => {
   const fetchNotificacionesCount = async (departamento: string) => {
     try {
       const response = await fetch(
-        `https://apigeminis.onrender.com/api/notificaciones/resumen?departamento=${departamento}`
+        `http://localhost:4000/api/notificaciones/resumen?departamento=${departamento}`
       );
 
       if (!response.ok) {
@@ -180,13 +180,21 @@ const MenuU = () => {
   return (
     <nav className="bg-gray-300 shadow-md p-4 w-[15%] min-h-screen flex flex-col justify-between fixed left-0 top-0">
       <div>
-        <div className="flex flex-col items-center justify-center w-full mt-6">
-          <img
-            src={usuario}
-            alt="Perfil"
-            className="object-cover w-2/5 h-auto"
-          />
-        </div>
+      <div className="flex flex-col items-center justify-center w-full mt-6">
+  <NavLink
+    to="/perfil"
+    className={({ isActive }) =>
+      `flex items-center ${isActive ? "text-blue-500 font-bold" : "text-gray-800"}`
+    }
+  >
+    <img
+      src={usuario}
+      alt="Perfil"
+      className="object-cover w-2/5 h-auto"
+    />
+  </NavLink>
+</div>
+
 
         <ul className="space-y-6 mt-[20%]">
           <li className="flex items-center space-x-6 pl-[10%]">

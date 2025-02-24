@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Menu from "../componentes/Menu";
+import Sesiones from "../componentes/Sesiones";
 
 function Usuarios() {
   // const lapiz = new URL("../assets/lapiz.png", import.meta.url).href;
@@ -88,6 +89,8 @@ interface Usuario {
   return (
     <div className="min-h-screen bg-gray-100 flex">
       <Menu />
+      <Sesiones />
+
       <div className="ml-[15%] flex-1 p-6">
         <header className="bg-blue-500 text-white py-4 px-6 mb-6">
           <h1 className="text-3xl font-bold text-center">Registrar Nuevo Usuario</h1>

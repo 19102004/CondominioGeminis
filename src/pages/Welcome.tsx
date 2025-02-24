@@ -1,4 +1,5 @@
 import Menu from "../componentes/Menu";
+import Sesiones from "../componentes/Sesiones";
 
 function Welcome() {
   // const fondo = new URL("../assets/fondo.png", import.meta.url).href;
@@ -7,6 +8,7 @@ function Welcome() {
     <div className="min-h-screen bg-gray-100 flex">
 
       <Menu />
+      <Sesiones />
 
 
       <div className="ml-[15%] flex-1 p-6">

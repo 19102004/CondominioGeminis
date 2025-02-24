@@ -8,6 +8,7 @@ import Permisos from './pages/Permisos';
 import Historial from './pages/Historial';
 import Solipermisos from './pages/Solipermisos';
 import WelcomeU from './pages/WelcomeU';
+import Perfil from './pages/perfil';
 
 import './App.css';
 
@@ -36,11 +37,15 @@ function App() {
           </li>
           <li>
             <Link to="/historial"></Link>
-          </li><li>
+          </li>
+          <li>
             <Link to="/solipermisos"></Link>
           </li>
           <li>
             <Link to="/welcomeu"></Link>
+          </li>
+          <li>
+            <Link to="/perfil"></Link>
           </li>
         </ul>
       </nav>
@@ -54,6 +59,7 @@ function App() {
         <Route path="/historial" element={<Historial/>} />
         <Route path="/solipermisos" element={<Solipermisos/>} />
         <Route path="/welcomeu" element={<WelcomeU />} /> 
+        <Route path="/perfil" element={<Perfil />} /> 
 
       </Routes>
     </Router>

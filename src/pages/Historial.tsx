@@ -1,5 +1,7 @@
 import { useState } from "react";
 import MenuU from "../componentes/MenuU";
+import Sesiones from "../componentes/Sesiones";
+
 
 function Historial() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,6 +32,7 @@ function Historial() {
   return (
     <div className="min-h-screen bg-gray-100 flex">
       <MenuU />
+      <Sesiones />
 
       <div className="ml-[15%] flex-1 p-6">
         <header className="bg-blue-500 text-white py-4 px-6 mb-6">
