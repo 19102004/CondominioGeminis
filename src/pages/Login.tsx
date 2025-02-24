@@ -17,7 +17,7 @@ function Login() {
     }
 
     try {
-      const response = await fetch(`https://apigeminis.onrender.com/usuarios/existe?telefono=${telefono}&password=${password}&recordar=${recordar ? "true" : "false"}`);
+      const response = await fetch(`https://apigeminis.onrender.com/api/usuarios/existe?telefono=${telefono}&password=${password}&recordar=${recordar ? "true" : "false"}`);
 
 
       const data = await response.json();
