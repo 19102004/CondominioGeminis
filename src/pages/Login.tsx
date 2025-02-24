@@ -42,7 +42,7 @@ function Login() {
       }
     } catch (error) {
       console.error("Error al realizar la solicitud:", error);
-      setErrorMessage("Hubo un problema al iniciar sesión. Intenta nuevamente.");
+      setErrorMessage("Hubo un problema al iniciar sesión. Intenta otra vez.");
     }
   };
 
