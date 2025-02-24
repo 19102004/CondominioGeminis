@@ -38,7 +38,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const fetchMultasPorDepartamento = async (departamento: string) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/notificaciones/resumen?departamento=${departamento}`
+        `https://apigeminis.onrender.com/api/notificaciones/resumen?departamento=${departamento}`
       );
 
       if (!response.ok) {
@@ -56,7 +56,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const eliminarNotificacion = async (id: string) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/notificaciones/delete/${id}`,
+        `https://apigeminis.onrender.com/api/notificaciones/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -163,7 +163,7 @@ const MenuU = () => {
   const fetchNotificacionesCount = async (departamento: string) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/notificaciones/resumen?departamento=${departamento}`
+        `https://apigeminis.onrender.com/api/notificaciones/resumen?departamento=${departamento}`
       );
 
       if (!response.ok) {

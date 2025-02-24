@@ -15,13 +15,20 @@ function Menu() {
       style={{ position: "fixed", left: 0, top: 0 }}
     >
       <div>
-        <div className="flex flex-col items-center justify-center w-full mt-6">
-          <img
-            src={negocio}
-            alt="Perfil"
-            className="object-cover w-3/6 h-auto"
-          />
-        </div>
+      <div className="flex flex-col items-center justify-center w-full mt-6">
+  <NavLink
+    to="/perfilA"
+    className={({ isActive }) =>
+      `flex items-center ${isActive ? "text-blue-500 font-bold" : "text-gray-800"}`
+    }
+  >
+    <img
+      src={negocio}
+      alt="PerfilA"
+      className="object-cover w-2/5 h-auto"
+    />
+  </NavLink>
+</div>
         <ul className="space-y-6 mt-[20%]">
           <li className="flex items-center space-x-6 pl-[10%]">
             <NavLink

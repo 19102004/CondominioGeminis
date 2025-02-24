@@ -9,6 +9,7 @@ import Historial from './pages/Historial';
 import Solipermisos from './pages/Solipermisos';
 import WelcomeU from './pages/WelcomeU';
 import Perfil from './pages/perfil';
+import PerfilA from './pages/perfilA';
 
 import './App.css';
 
@@ -47,6 +48,9 @@ function App() {
           <li>
             <Link to="/perfil"></Link>
           </li>
+          <li>
+            <Link to="/perfilA"></Link>
+          </li>
         </ul>
       </nav>
       <Routes>
@@ -60,6 +64,7 @@ function App() {
         <Route path="/solipermisos" element={<Solipermisos/>} />
         <Route path="/welcomeu" element={<WelcomeU />} /> 
         <Route path="/perfil" element={<Perfil />} /> 
+        <Route path="/perfilA" element={<PerfilA />} /> 
 
       </Routes>
     </Router>
