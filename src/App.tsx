@@ -10,6 +10,8 @@ import Solipermisos from './pages/Solipermisos';
 import WelcomeU from './pages/WelcomeU';
 import Perfil from './pages/perfil';
 import PerfilA from './pages/perfilA';
+import Recuperacion from './pages/recuperacion';
+import CambioPass from './pages/cambioPass';
 
 import './App.css';
 
@@ -51,6 +53,12 @@ function App() {
           <li>
             <Link to="/perfilA"></Link>
           </li>
+          <li>
+            <Link to="/recuperacion"></Link>
+          </li>
+          <li>
+            <Link to="/cambioPass"></Link>
+          </li>
         </ul>
       </nav>
       <Routes>
@@ -65,7 +73,8 @@ function App() {
         <Route path="/welcomeu" element={<WelcomeU />} /> 
         <Route path="/perfil" element={<Perfil />} /> 
         <Route path="/perfilA" element={<PerfilA />} /> 
-
+        <Route path="/recuperacion" element={<Recuperacion />} /> 
+        <Route path="/restablecer/:token" element={<CambioPass />} /> 
       </Routes>
     </Router>
   );
