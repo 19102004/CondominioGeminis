@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Menu from "../componentes/Menu";
 import Modal from "../componentes/modal_multa";
-import Sesiones from "../componentes/Sesiones";
+import Sesiones from "../middlewares/Sesiones";
 
 interface Multa {
   nombre: string;

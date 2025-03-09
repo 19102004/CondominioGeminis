@@ -21,13 +21,13 @@ const Recuperacion = () => {
     setError(null);
 
     try {
-      const response = await axios.post("http://localhost:4000/api/send-whatsapp", {
+      const response = await axios.post("https://apigeminis.onrender.com/api/enviar", {
         phoneNumber: telefono,
       });
 
       if (response.data.success) {
         alert("Código enviado con éxito. Revisa tu WhatsApp.");
-        navigate("/cambioPass");
+        navigate("/restablecer");
       } else {
         setError("Hubo un error al enviar el código.");
       }

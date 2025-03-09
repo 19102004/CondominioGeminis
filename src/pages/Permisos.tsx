@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Menu from "../componentes/Menu";
-import Sesiones from "../componentes/Sesiones";
+import Sesiones from "../middlewares/Sesiones";
 
 function Permisos() {
   const lupa = new URL("../assets/lupa.png", import.meta.url).href;

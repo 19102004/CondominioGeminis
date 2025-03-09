@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import MenuU from "../componentes/MenuU";
-import Sesiones from "../componentes/Sesiones";
+import Sesiones from "../middlewares/Sesiones";
 
 function Perfil() {
 

@@ -1,5 +1,5 @@
 import Menu from "../componentes/Menu";
-import Sesiones from "../componentes/Sesiones";
+import Sesiones from "../middlewares/Sesiones";
 
 function Welcome() {
   // const fondo = new URL("../assets/fondo.png", import.meta.url).href;

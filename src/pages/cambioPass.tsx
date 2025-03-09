@@ -13,7 +13,7 @@ const CambioPass = () => {
     const verifyToken = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("http://localhost:4000/api/checartoken", {
+        const response = await fetch("https://apigeminis.onrender.com/api/verificarwasa", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token }),
@@ -39,7 +39,7 @@ const CambioPass = () => {
 
     setIsLoading(true);
     try {
-      const response = await fetch("https://api-celeste.onrender.com/api/update-password", {
+      const response = await fetch("https://apigeminis.onrender.com/api/contrawasa", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, newPassword }),

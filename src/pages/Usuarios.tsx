@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Menu from "../componentes/Menu";
-import Sesiones from "../componentes/Sesiones";
+import Sesiones from "../middlewares/Sesiones";
 
 function Usuarios() {
   // const lapiz = new URL("../assets/lapiz.png", import.meta.url).href;
