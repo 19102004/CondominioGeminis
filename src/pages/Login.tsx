@@ -64,7 +64,7 @@ function Login() {
               </div>
               <div className="flex items-center">
                 <a href="/recuperacion" className="text-blue-500 text-lg hover:underline">
-                  ¿Olvidaste tu contraseña? Jaja qué buei, pícale aquí pue!
+                  ¿Olvidaste tu contraseña?
                 </a>
               </div>
 
